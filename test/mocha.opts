@@ -1,0 +1,8 @@
+--recursive ./src/components/FilterPizza
+--recursive ./src/components/PizzaList
+--recursive ./src/components/SortPizza
+--recursive ./src/components/PizzaList/PizzaListItem
+--recursive ./src/services
+--require babel-core/register
+--require babel-polyfill
+--require ./test/helpers.js

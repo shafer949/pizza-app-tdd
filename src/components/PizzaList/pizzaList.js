@@ -4,7 +4,7 @@ import PizzaListItem from './PizzaListItem/pizzaListItem'
 
 class PizzaList extends Component {
     
-    renderList = (pizzas = []) => {
+    renderList = (pizzas) => {
    
         return pizzas.map((pizza, index )=> (
 
@@ -24,6 +24,9 @@ class PizzaList extends Component {
     }
 }
 
+PizzaList.defaultProps = {
+    pizzas: []
+}
 
 PizzaList.propTypes = {
     pizzas: PropTypes.array.isRequired

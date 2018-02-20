@@ -6,8 +6,6 @@ import SortPizzaButton from '../components/SortPizza/sortPizzaButton';
 import {fetchPizzas} from '../services/api';
 import WelcomeHeader from '../components/Header/welcomeHeader';
 
-const LoadingView = () => <div><p className='loading-text'>Loading...</p></div>;
-
 class App extends Component {
     state = {
         pizzas: [],
@@ -60,10 +58,10 @@ class App extends Component {
     {
         return (
             this.state.isLoading ?
-            <LoadingView/>
+            <div><p className='loading-text'>Loading...</p></div>
             :
             <div>
-                <WelcomeHeader text='Pizza Galore'/>
+                <WelcomeHeader/>
                 <PizzaList pizzas={this.state.filteredPizzas}/>
                 <FilterPizzaInput className='input-filter' onInputChange={this.handleInputChange}/>
                 <SortPizzaButton onSortButtonClick={this.handleSortButtonClick}/>

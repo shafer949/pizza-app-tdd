@@ -21,4 +21,13 @@ describe('Given `WelcomeHeader`', () => {
         expect(component.is('div')).to.be.true();
     })
 
+    it('should contain a paragraph tag', () => {
+
+        expect(component.find('p').length).to.equal(1);
+    })
+
+    it('should contain text in the paragraph tag', () => {
+
+        expect(component.find('p').text()).to.equal(testProps.text);
+    })
 })

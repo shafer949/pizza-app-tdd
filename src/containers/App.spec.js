@@ -3,13 +3,13 @@ import {expect} from 'code';
 import {shallow} from 'enzyme';
 import {spy} from 'sinon';
 import sinon from 'sinon';
-import App from '../src/containers/app';
-import PizzaList from '../src/components/PizzaList/pizzaList';
-import FilterPizzaInput from '../src/components/FilterPizza/filterPizzaInput';
-import SortPizzaButton from '../src/components/SortPizza/sortPizzaButton';
-import * as fetchServices from '../src/services/api';
-import pizzaTestData from '../src/store/pizza.json';
-import {fetchPizzas} from '../src/services/api';
+import App from './App';
+import PizzaList from '../components/PizzaList/pizzaList';
+import FilterPizzaInput from '../components/FilterPizza/filterPizzaInput';
+import SortPizzaButton from '../components/SortPizza/sortPizzaButton';
+import * as fetchServices from '../services/api';
+import pizzaTestData from '../store/pizza.json';
+import {fetchPizzas} from '../services/api';
 
 const pizzas = pizzaTestData.pizzas;
 
@@ -47,8 +47,7 @@ describe('Given `App`', () => {
 
         it('should display `Loading...` text', () => {
 
-            expect(component.find('LoadingView').exists()).to.be.true();
-
+            expect(component.find('.loading-text').find('p').text()).to.equal("Loading...")
         })
     })
 
@@ -117,9 +116,17 @@ describe('Given `App`', () => {
 
         it('should sort the `filteredPizzaList` in reverse alphabetical order', () => {
             
+            component.setState({ listAlreadySorted: false});
+
             buttonSpy(component.instance().handleSortButtonClick());
 
             expect(component.state().filteredPizzas[0]).to.be.equal('vegetable');
+
+            component.setState({ listAlreadySorted: true});
+
+            buttonSpy(component.instance().handleSortButtonClick());
+
+            expect(component.state().filteredPizzas[0]).to.be.equal('3 cheeSe');
         })
 
         it('should sort the `filteredPizzaList` based on input text entered', () => {

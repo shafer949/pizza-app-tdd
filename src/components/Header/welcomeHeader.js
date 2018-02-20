@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 const WelcomeHeader = (props) => {
     return (
         <div>
-           {props.text}
+           <p>{props.text}</p>
         </div>
        );    
+}
+
+WelcomeHeader.defaultProps = {
+    text: 'Pizza Galore'
 }
 
 WelcomeHeader.propTypes = {

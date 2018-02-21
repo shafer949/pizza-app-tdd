@@ -2,6 +2,9 @@ import sinon from 'sinon';
 import {expect} from 'code';
 import {fetchPizzas} from './api';
 import 'isomorphic-fetch';
+import pizzaTestData from '../../src/store/pizza.json';
+
+const pizzas = pizzaTestData.pizzas;
 
 describe('fetchPizzas', () => {
     let sandbox, fetchPizzasStub;
@@ -10,7 +13,7 @@ describe('fetchPizzas', () => {
 
         sandbox = sinon.createSandbox();
 
-        fetchPizzasStub = sandbox.stub(global, 'fetch').resolves({json:sinon.spy()});
+        fetchPizzasStub = sandbox.stub(global, 'fetch').resolves({json:sinon.stub().returns(pizzas)});
     })
     
     afterEach(() => {
@@ -27,5 +30,13 @@ describe('fetchPizzas', () => {
         sinon.assert.calledOnce(fetchPizzasStub);
 
         sinon.assert.calledWithExactly(fetchPizzasStub, endpoint);
+    })
+
+    it('should return an array of pizzas', () => {
+     
+        fetchPizzas().then(data => {
+            console.log(data)
+            expect(data).array().equal(pizzas)
+        })
     })
 })

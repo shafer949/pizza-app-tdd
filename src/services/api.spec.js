@@ -35,7 +35,6 @@ describe('fetchPizzas', () => {
     it('should return an array of pizzas', () => {
      
         fetchPizzas().then(data => {
-            console.log(data)
             expect(data).array().equal(pizzas)
         })
     })

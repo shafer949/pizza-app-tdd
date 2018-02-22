@@ -6,22 +6,22 @@ import sinon from 'sinon';
 
 describe('Given `FilterPizzaInput`', () => {
     
-    let component,
-        testProps,
-        inputSpy
+    function requiredProps(overrideProps = {}) {
 
-    beforeEach(() => {
-
-        inputSpy = sinon.spy();
-       
-        testProps = {
-            onInputChange: inputSpy
+        return {
+            ...overrideProps
         }
+    }
+    
+    function renderComponent(props = requiredProps()) {
 
-        component = shallow(<FilterPizzaInput {...testProps} />)
-    })
+        return shallow(<FilterPizzaInput {...props}/>)
+
+    }
 
     it('should be an `input`', () => {
+
+        const component = renderComponent();
 
         expect(component.find('input').length).to.equal(1);
     })
@@ -29,6 +29,10 @@ describe('Given `FilterPizzaInput`', () => {
     describe('When the `input` value changes', () => {
 
         it('should call the `onChange` event', () => {
+
+            let inputSpy = sinon.spy();
+
+            const component = renderComponent({onInputChange: inputSpy});
 
             component.find('input').simulate('change', {target: {value:"Sausage"} });
 

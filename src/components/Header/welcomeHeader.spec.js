@@ -5,29 +5,39 @@ import {shallow} from 'enzyme';
 import WelcomeHeader from './welcomeHeader';
 
 describe('Given `WelcomeHeader`', () => {
-    let component, testProps
 
-    beforeEach(() => {
+    function requiredProps(overrideProps = {}) {
 
-        testProps = Object.freeze({
-            text: 'Pizza'
-      })
-      
-      component = shallow(<WelcomeHeader {...testProps}/>)
-    })
+        return {
+            text: 'Pizza',
+            ...overrideProps
+        }
+    }
+    
+    function renderComponent(props = requiredProps()) {
+
+        return shallow(<WelcomeHeader {...props}/>)
+
+    }
 
     it('should be a `div`',() => {
+
+        const component = renderComponent();
 
         expect(component.is('div')).to.be.true();
     })
 
     it('should contain a paragraph tag', () => {
 
+        const component = renderComponent();
+
         expect(component.find('p').length).to.equal(1);
     })
 
     it('should contain text in the paragraph tag', () => {
 
-        expect(component.find('p').text()).to.equal(testProps.text);
+        const component = renderComponent();
+
+        expect(component.find('p').text()).to.equal('Pizza');
     })
 })

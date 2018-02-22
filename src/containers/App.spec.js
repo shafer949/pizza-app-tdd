@@ -14,20 +14,16 @@ import {fetchPizzas} from '../services/api';
 const pizzas = pizzaTestData.pizzas;
 
 describe('Given `App`', () => {
-    let component, sandbox, fetchPizzasStub, testProps, inputSpy, buttonSpy;
+    let component, sandbox, fetchPizzasStub, testProps;
 
     beforeEach(() => {
 
         sandbox = sinon.createSandbox();
 
         fetchPizzasStub = sandbox.stub(fetchServices, 'fetchPizzas').resolves({pizzas});
-        inputSpy = sandbox.spy();
-        buttonSpy = sandbox.spy();
 
         testProps = {
-          fetchPizzas: fetchPizzasStub,
-          handleInputChange: inputSpy,
-          handleSortButtonClick: buttonSpy
+          fetchPizzas: fetchPizzasStub
         }  
        
         component = shallow(<App {...testProps}/>)
@@ -99,7 +95,7 @@ describe('Given `App`', () => {
       
         it('should update the `filteredPizzaList`', () => {
 
-           inputSpy(component.instance().handleInputChange('Chick'));
+           component.find('.input-filter').dive().find('input').simulate('change', {target:{value:'Chick'}})
 
            expect(component.state().filteredPizzas).to.equal(['Chicken']);
         })
@@ -107,33 +103,29 @@ describe('Given `App`', () => {
 
     describe('When the `SortPizzaButton` is clicked', () => {
 
-        it('should call the `handleSortButtonClick` event', () => {
-
-            buttonSpy(component.instance().handleSortButtonClick());
-            
-            expect(buttonSpy.calledOnce).to.be.true();
-        })
-
-        it('should sort the `filteredPizzaList` in reverse alphabetical order', () => {
+        it('should sort the `filteredPizzaList` in descending alphabetical order', () => {
             
             component.setState({ listAlreadySorted: false});
 
-            buttonSpy(component.instance().handleSortButtonClick());
+            component.find('.sort-button').dive().find('button').simulate('click')
 
             expect(component.state().filteredPizzas[0]).to.be.equal('vegetable');
+        })
+
+        it('should sort the `filteredPizzaList` in ascending order', () => {
 
             component.setState({ listAlreadySorted: true});
 
-            buttonSpy(component.instance().handleSortButtonClick());
+            component.find('.sort-button').dive().find('button').simulate('click')
 
             expect(component.state().filteredPizzas[0]).to.be.equal('3 cheeSe');
         })
 
         it('should sort the `filteredPizzaList` based on input text entered', () => {
             
-            inputSpy(component.instance().handleInputChange('Ch'));
+            component.find('.input-filter').dive().find('input').simulate('change', {target:{value:'Ch'}})
 
-            buttonSpy(component.instance().handleSortButtonClick());
+            component.find('.sort-button').dive().find('button').simulate('click')
            
             expect(component.state().filteredPizzas).to.be.equal(['Chicken', 'Cheese', '3 cheeSe']);
         })

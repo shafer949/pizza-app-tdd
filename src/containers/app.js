@@ -5,6 +5,37 @@ import FilterPizzaInput from '../components/FilterPizza/filterPizzaInput';
 import SortPizzaButton from '../components/SortPizza/sortPizzaButton';
 import {fetchPizzas} from '../services/api';
 import WelcomeHeader from '../components/Header/welcomeHeader';
+import PropTypes from 'prop-types';
+
+function handleInputChange (value) {
+
+    const filteredList = this.state.pizzas.filter(pizza => {
+           
+        return pizza.toLowerCase().includes(value.toLowerCase())
+    })
+ 
+    this.setState({
+        filteredPizzas: filteredList 
+    })
+}
+
+function handleSortButtonClick () {
+
+    const sorted = this.state.listAlreadySorted 
+    const aplhalist=  this.state.filteredPizzas.sort((a,b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+   
+    if(sorted){
+        this.setState({
+            filteredList: aplhalist,
+            listAlreadySorted: false
+        })   
+     }else{
+        this.setState({
+            filteredList:aplhalist.reverse(),
+            listAlreadySorted: true
+        })   
+     }
+}
 
 class App extends Component {
     state = {
@@ -13,35 +44,6 @@ class App extends Component {
         filteredPizzas: [],
         listAlreadySorted: false
     }
-
-    handleInputChange = (value) => {
-      
-        const filteredList = this.state.pizzas.filter(pizza => {
-           
-            return pizza.toLowerCase().includes(value.toLowerCase())
-        })
-     
-        this.setState({
-            filteredPizzas: filteredList 
-        })
-    }
-
-    handleSortButtonClick = () => {
-        const sorted = this.state.listAlreadySorted 
-        const aplhalist=  this.state.filteredPizzas.sort((a,b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-       
-        if(sorted){
-            this.setState({
-                filteredList: aplhalist,
-                listAlreadySorted: false
-            })   
-         }else{
-            this.setState({
-                filteredList:aplhalist.reverse(),
-                listAlreadySorted: true
-            })   
-         }
-     } 
 
     componentDidMount() {
 
@@ -63,8 +65,8 @@ class App extends Component {
             <div>
                 <WelcomeHeader/>
                 <PizzaList pizzas={this.state.filteredPizzas}/>
-                <FilterPizzaInput className='input-filter' onInputChange={this.handleInputChange}/>
-                <SortPizzaButton onSortButtonClick={this.handleSortButtonClick}/>
+                <FilterPizzaInput className='input-filter' onInputChange={handleInputChange.bind(this)}/>
+                <SortPizzaButton className="sort-button" onSortButtonClick={handleSortButtonClick.bind(this)}/>
             </div>
         )
     } 
@@ -73,5 +75,10 @@ class App extends Component {
 App.defaultProps = {
     fetchPizzas
 }
+
+FilterPizzaInput.propTypes = {
+    fetchPizzas : PropTypes.func.isRequired
+}
+
  
 export default App

@@ -14,7 +14,7 @@ WelcomeHeader.defaultProps = {
 }
 
 WelcomeHeader.propTypes = {
-    text: PropTypes.string.isRequired
+    text: PropTypes.string
 }
 
 export default WelcomeHeader;

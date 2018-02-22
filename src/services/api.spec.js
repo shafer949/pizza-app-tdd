@@ -13,7 +13,9 @@ describe('fetchPizzas', () => {
 
         sandbox = sinon.createSandbox();
 
-        fetchPizzasStub = sandbox.stub(global, 'fetch').resolves({json:sinon.stub().returns(pizzas)});
+        const json = sinon.stub().returns(pizzas);
+
+        fetchPizzasStub = sandbox.stub(global, 'fetch').resolves({json});
     })
     
     afterEach(() => {
